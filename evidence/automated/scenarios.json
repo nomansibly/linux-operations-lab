@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-10-25T20:03:12.043116+00:00",
+  "environment": "automated local loopback lab; not physical data center equipment",
+  "cases": [
+    {
+      "scenario": "service_stopped",
+      "symptom": {
+        "status": null,
+        "error": "<urlopen error [Errno 111] Connection refused>"
+      },
+      "after_fix": {
+        "status": 200,
+        "body": "{\"status\": \"ok\"}"
+      },
+      "passed": true,
+      "diagnosis": "Listener process stopped; restart managed lab process and use its announced port."
+    },
+    {
+      "scenario": "wrong_client_port",
+      "symptom": {
+        "status": null,
+        "error": "<urlopen error [Errno 111] Connection refused>"
+      },
+      "after_fix": {
+        "status": 200,
+        "body": "{\"status\": \"ok\"}"
+      },
+      "passed": true,
+      "diagnosis": "Healthy server; client targeted a non-listening port. Correct client configuration."
+    },
+    {
+      "scenario": "wrong_http_route",
+      "symptom": {
+        "status": 404,
+        "body": "{\"status\": \"route_not_found\"}"
+      },
+      "after_fix": {
+        "status": 200,
+        "body": "{\"status\": \"ok\"}"
+      },
+      "passed": true,
+      "diagnosis": "TCP and HTTP work; correct URL path instead of restarting networking."
+    },
+    {
+      "scenario": "dependency_unavailable",
+      "symptom": {
+        "status": 503,
+        "body": "{\"status\": \"unavailable\", \"reason\": \"simulated_dependency_failure\"}"
+      },
+      "after_fix": {
+        "status": 200,
+        "body": "{\"status\": \"ok\"}"
+      },
+      "passed": true,
+      "diagnosis": "Application is reachable but explicitly simulates dependency failure; remove only lab marker."
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux Operations Lab | Sibly Noman</title><style>
+:root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#f1f5f8;color:#183045;font:16px/1.6 system-ui,sans-serif}header{background:#102d3d;color:white;padding:70px max(6vw,24px)}main{max-width:1150px;margin:auto;padding:38px 24px}h1{font-size:clamp(35px,6vw,64px);line-height:1.1;margin:16px 0}h2{font-size:28px;margin-top:48px}h3{font-size:21px}.eyebrow{letter-spacing:2px;font-size:12px;font-weight:700;color:#25bba5}header p{max-width:730px;color:#c6d9e2}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}article,.note{background:white;border:1px solid #dbe4ea;border-radius:12px;padding:26px}.stats{display:flex;flex-wrap:wrap;gap:32px;margin-top:30px}.stats strong{display:block;font-size:32px;color:#54e0c4}.stats span{font-size:13px;color:#c6d9e2}.flow{font-weight:700;color:#087d70}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#eef3f7;padding:16px;font-size:12px}summary{cursor:pointer;font-weight:600}table{border-collapse:collapse;width:100%;background:white;font-size:13px}td,th{text-align:left;padding:12px;border-bottom:1px solid #e2e8ef}.scroll{overflow:auto}a{color:#087d70}footer{padding:30px 0;color:#586e80;font-size:13px}@media(max-width:650px){.grid{grid-template-columns:1fr}header{padding:42px 24px}}</style></head><body>
+<header><span class="eyebrow">SIBLY NOMAN / SYSTEMS PORTFOLIO</span><h1>Linux Operations Lab</h1><p>From an unavailable endpoint to a verified recovery. Controlled TCP and HTTP failures, observable Linux metrics, and repeatable Python checks.</p><div class="stats"><div><strong>4 / 4</strong><span>Recovery scenarios passed</span></div><div><strong>4 / 4</strong><span>Metric tests passed</span></div><div><strong>10</strong><span>Health samples checked</span></div></div></header>
+<main><div class="note"><b>Evidence, with context.</b> This is a local lab, not a production incident report. The bundled run was executed in the assistant environment. Physical hardware work, multi-host networking and personal laptop execution are not claimed.</div><h2>Investigate the right layer</h2><div class="grid"><article><span class="eyebrow">CASE 01 · VERIFIED</span><h3>Service Stopped</h3><p class="flow">Connection failure → HTTP 200</p><p>Listener process stopped; restart managed lab process and use its announced port.</p><details><summary>Inspect captured evidence</summary><pre>{
+  &quot;scenario&quot;: &quot;service_stopped&quot;,
+  &quot;symptom&quot;: {
+    &quot;status&quot;: null,
+    &quot;error&quot;: &quot;&lt;urlopen error [Errno 111] Connection refused&gt;&quot;
+  },
+  &quot;after_fix&quot;: {
+    &quot;status&quot;: 200,
+    &quot;body&quot;: &quot;{\&quot;status\&quot;: \&quot;ok\&quot;}&quot;
+  },
+  &quot;passed&quot;: true,
+  &quot;diagnosis&quot;: &quot;Listener process stopped; restart managed lab process and use its announced port.&quot;
+}</pre></details></article><article><span class="eyebrow">CASE 02 · VERIFIED</span><h3>Wrong Client Port</h3><p class="flow">Connection failure → HTTP 200</p><p>Healthy server; client targeted a non-listening port. Correct client configuration.</p><details><summary>Inspect captured evidence</summary><pre>{
+  &quot;scenario&quot;: &quot;wrong_client_port&quot;,
+  &quot;symptom&quot;: {
+    &quot;status&quot;: null,
+    &quot;error&quot;: &quot;&lt;urlopen error [Errno 111] Connection refused&gt;&quot;
+  },
+  &quot;after_fix&quot;: {
+    &quot;status&quot;: 200,
+    &quot;body&quot;: &quot;{\&quot;status\&quot;: \&quot;ok\&quot;}&quot;
+  },
+  &quot;passed&quot;: true,
+  &quot;diagnosis&quot;: &quot;Healthy server; client targeted a non-listening port. Correct client configuration.&quot;
+}</pre></details></article><article><span class="eyebrow">CASE 03 · VERIFIED</span><h3>Wrong Http Route</h3><p class="flow">HTTP 404 → HTTP 200</p><p>TCP and HTTP work; correct URL path instead of restarting networking.</p><details><summary>Inspect captured evidence</summary><pre>{
+  &quot;scenario&quot;: &quot;wrong_http_route&quot;,
+  &quot;symptom&quot;: {
+    &quot;status&quot;: 404,
+    &quot;body&quot;: &quot;{\&quot;status\&quot;: \&quot;route_not_found\&quot;}&quot;
+  },
+  &quot;after_fix&quot;: {
+    &quot;status&quot;: 200,
+    &quot;body&quot;: &quot;{\&quot;status\&quot;: \&quot;ok\&quot;}&quot;
+  },
+  &quot;passed&quot;: true,
+  &quot;diagnosis&quot;: &quot;TCP and HTTP work; correct URL path instead of restarting networking.&quot;
+}</pre></details></article><article><span class="eyebrow">CASE 04 · VERIFIED</span><h3>Dependency Unavailable</h3><p class="flow">HTTP 503 → HTTP 200</p><p>Application is reachable but explicitly simulates dependency failure; remove only lab marker.</p><details><summary>Inspect captured evidence</summary><pre>{
+  &quot;scenario&quot;: &quot;dependency_unavailable&quot;,
+  &quot;symptom&quot;: {
+    &quot;status&quot;: 503,
+    &quot;body&quot;: &quot;{\&quot;status\&quot;: \&quot;unavailable\&quot;, \&quot;reason\&quot;: \&quot;simulated_dependency_failure\&quot;}&quot;
+  },
+  &quot;after_fix&quot;: {
+    &quot;status&quot;: 200,
+    &quot;body&quot;: &quot;{\&quot;status\&quot;: \&quot;ok\&quot;}&quot;
+  },
+  &quot;passed&quot;: true,
+  &quot;diagnosis&quot;: &quot;Application is reachable but explicitly simulates dependency failure; remove only lab marker.&quot;
+}</pre></details></article></div><h2>Host monitoring, with SQL evidence</h2><p>Python reads Linux CPU, memory and filesystem metrics, probes the service, and stores samples in SQLite. Five unreachable-service samples and five healthy-service samples were verified. Resource values reflect the execution environment, not dedicated physical hardware.</p><div class="scroll"><table><thead><tr><th>Test</th><th>UTC timestamp</th><th>CPU %</th><th>Memory %</th><th>Disk %</th><th>HTTP</th></tr></thead><tbody><tr><td>healthy</td><td>2026-10-25T20:05:57.601645+00:00</td><td>0.0</td><td>7.38</td><td>6.03</td><td>200</td></tr><tr><td>healthy</td><td>2026-10-25T20:05:57.806094+00:00</td><td>0.0</td><td>7.38</td><td>6.03</td><td>200</td></tr><tr><td>healthy</td><td>2026-10-25T20:05:58.010424+00:00</td><td>0.56</td><td>7.38</td><td>6.03</td><td>200</td></tr><tr><td>healthy</td><td>2026-10-25T20:05:58.213204+00:00</td><td>0.56</td><td>7.38</td><td>6.03</td><td>200</td></tr><tr><td>healthy</td><td>2026-10-25T20:05:58.419442+00:00</td><td>0.0</td><td>7.38</td><td>6.03</td><td>200</td></tr><tr><td>unhealthy</td><td>2026-10-25T20:05:56.465057+00:00</td><td>0.0</td><td>7.29</td><td>6.03</td><td>unreachable</td></tr><tr><td>unhealthy</td><td>2026-10-25T20:05:56.667617+00:00</td><td>0.0</td><td>7.29</td><td>6.03</td><td>unreachable</td></tr><tr><td>unhealthy</td><td>2026-10-25T20:05:56.869962+00:00</td><td>0.0</td><td>7.29</td><td>6.03</td><td>unreachable</td></tr><tr><td>unhealthy</td><td>2026-10-25T20:05:57.074581+00:00</td><td>0.0</td><td>7.29</td><td>6.03</td><td>unreachable</td></tr><tr><td>unhealthy</td><td>2026-10-25T20:05:57.278638+00:00</td><td>0.0</td><td>7.28</td><td>6.03</td><td>unreachable</td></tr></tbody></table></div><h2>Reproduce the complete demonstration</h2><pre>python3 scripts/complete_demo.py</pre><p>One command runs unit tests, starts and stops the isolated service, checks failure and recovery, verifies SQLite output and regenerates this page. No pip dependencies or database server required. Linux and Python 3.10+ are required.</p><h2>Engineering choices</h2><div class="grid"><article><h3>Diagnose before restarting</h3><p>A refused connection, HTTP 404 and HTTP 503 describe different failure layers. Each case records the symptom, targeted fix and successful HTTP check.</p></article><article><h3>Unknown stays unknown</h3><p>A missing service response does not become a healthy reading. CPU intervals with no elapsed ticks remain unknown. Metrics and application health are evaluated separately.</p></article></div><footer>Executed: 2026-10-25T20:05:58.460504+00:00 · Python 3.12.14 · Automated local evidence.<br>Source package includes code, runbooks, tests, evidence and MIT license. This page is static; it does not connect to your laptop.</footer></main></body></html>

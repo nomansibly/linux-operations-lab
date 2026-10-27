@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-10-25T20:05:58.460504+00:00",
+  "environment": "assistant execution environment",
+  "python": "3.12.14",
+  "platform": "Linux",
+  "scenario_checks": 4,
+  "unit_tests": 4,
+  "healthy_samples": 5,
+  "unhealthy_samples": 5,
+  "status": "passed",
+  "limitations": [
+    "Loopback network only; no two-VM, DNS or physical hardware validation.",
+    "GitHub-hosted deployment status is not established by a local run."
+  ]
+}

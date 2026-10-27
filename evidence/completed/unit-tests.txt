@@ -1,0 +1,9 @@
+test_cpu_delta (test_metrics.MetricsTests.test_cpu_delta) ... ok
+test_no_elapsed_ticks (test_metrics.MetricsTests.test_no_elapsed_ticks) ... ok
+test_threshold (test_metrics.MetricsTests.test_threshold) ... ok
+test_unknown_not_healthy (test_metrics.MetricsTests.test_unknown_not_healthy) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK

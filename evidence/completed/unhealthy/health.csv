@@ -1,0 +1,6 @@
+recorded_at,cpu_pct,memory_pct,disk_pct,http_status,alerts
+2026-10-25T20:05:56.465057+00:00,0.0,7.29,6.03,,"[""service_unhealthy""]"
+2026-10-25T20:05:56.667617+00:00,0.0,7.29,6.03,,"[""service_unhealthy""]"
+2026-10-25T20:05:56.869962+00:00,0.0,7.29,6.03,,"[""service_unhealthy""]"
+2026-10-25T20:05:57.074581+00:00,0.0,7.29,6.03,,"[""service_unhealthy""]"
+2026-10-25T20:05:57.278638+00:00,0.0,7.28,6.03,,"[""service_unhealthy""]"
